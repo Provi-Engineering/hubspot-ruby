@@ -22,7 +22,7 @@ RSpec.configure do |config|
   config.mock_with :rr
 
   config.after(:each) do
-    Hubspot::Config.reset!
+    CommunityHubspot::Config.reset!
   end
 
   config.extend CassetteHelper

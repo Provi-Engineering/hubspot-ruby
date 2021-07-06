@@ -1,15 +1,19 @@
-describe Hubspot::CompanyProperties do
+describe CommunityHubspot::CompanyProperties do
   describe '.add_default_parameters' do
     let(:opts) { {} }
-    subject { Hubspot::CompanyProperties.add_default_parameters(opts) }
+    subject { CommunityHubspot::CompanyProperties.add_default_parameters(opts) }
     context 'default parameters' do
       context 'without property parameter' do
-        its([:property]) { should == 'email' }
+        it 'has email property' do
+          expect(subject[:property]).to eq('email')
+        end
       end
 
       context 'with property parameter' do
         let(:opts) { {property: 'name' } }
-        its([:property]) { should == 'name'}
+        it 'has email property' do
+          expect(subject[:property]).to eq('name')
+        end
       end
     end
   end
@@ -26,7 +30,7 @@ describe Hubspot::CompanyProperties do
     end
   end
 
-  before { Hubspot.configure(hapikey: 'demo') }
+  before { CommunityHubspot.configure(hapikey: 'demo') }
 
   describe 'Properties' do
     describe '.all' do
@@ -34,7 +38,7 @@ describe Hubspot::CompanyProperties do
         cassette 'all_properties'
 
         it 'should return all properties' do
-          expect(Hubspot::CompanyProperties.all).to eql(example_properties)
+          expect(CommunityHubspot::CompanyProperties.all).to eql(example_properties)
         end
       end
 
@@ -44,8 +48,8 @@ describe Hubspot::CompanyProperties do
         cassette 'properties_in_groups'
 
         it 'should return properties for the specified group[s]' do
-          response = Hubspot::CompanyProperties.all({}, { include: groups })
-          response.each { |p| expect(groups.include?(p['groupName'])).to be_true }
+          response = CommunityHubspot::CompanyProperties.all({}, { include: groups })
+          response.each { |p| expect(groups.include?(p['groupName'])).to be_truthy }
         end
       end
 
@@ -53,8 +57,8 @@ describe Hubspot::CompanyProperties do
         cassette 'properties_not_in_groups'
 
         it 'should return properties for the non-specified group[s]' do
-          response = Hubspot::CompanyProperties.all({}, { exclude: groups })
-          response.each { |p| expect(groups.include?(p['groupName'])).to be_false }
+          response = CommunityHubspot::CompanyProperties.all({}, { exclude: groups })
+          response.each { |p| expect(groups.include?(p['groupName'])).to be_falsey }
         end
       end
     end
@@ -78,14 +82,14 @@ describe Hubspot::CompanyProperties do
       'externalOptions'               => false,
       'displayMode'                   => 'current_value'
     } }
-    let(:valid_params) { params.select { |k, _| Hubspot::CompanyProperties::PROPERTY_SPECS[:field_names].include?(k) } }
+    let(:valid_params) { params.select { |k, _| CommunityHubspot::CompanyProperties::PROPERTY_SPECS[:field_names].include?(k) } }
 
     describe '.create!' do
       context 'with no valid parameters' do
         cassette 'fail_to_create_property'
 
         it 'should return nil' do
-          expect(Hubspot::CompanyProperties.create!({})).to be(nil)
+          expect(CommunityHubspot::CompanyProperties.create!({})).to be(nil)
         end
       end
 
@@ -93,7 +97,7 @@ describe Hubspot::CompanyProperties do
         cassette 'create_property'
 
         it 'should return the valid parameters' do
-          response = Hubspot::CompanyProperties.create!(params)
+          response = CommunityHubspot::CompanyProperties.create!(params)
           valid_params.each { |k, v| expect(response[k]).to eq(v) }
         end
       end
@@ -103,7 +107,7 @@ describe Hubspot::CompanyProperties do
       context 'with no valid parameters' do
 
         it 'should return nil ' do
-          expect(Hubspot::CompanyProperties.update!(params['name'], {})).to be(nil)
+          expect(CommunityHubspot::CompanyProperties.update!(params['name'], {})).to be(nil)
         end
       end
 
@@ -114,7 +118,7 @@ describe Hubspot::CompanyProperties do
           params['description']       = 'What is their favorite flavor?'
           valid_params['description'] = params['description']
 
-          response = Hubspot::CompanyProperties.update!(params['name'], params)
+          response = CommunityHubspot::CompanyProperties.update!(params['name'], params)
           valid_params.each { |k, v| expect(response[k]).to eq(v) }
         end
       end
@@ -127,7 +131,7 @@ describe Hubspot::CompanyProperties do
         cassette 'delete_property'
 
         it 'should return nil' do
-          expect(Hubspot::CompanyProperties.delete!(name)).to eq(nil)
+          expect(CommunityHubspot::CompanyProperties.delete!(name)).to eq(nil)
         end
       end
 
@@ -135,7 +139,7 @@ describe Hubspot::CompanyProperties do
         cassette 'delete_non_property'
 
         it 'should raise an error' do
-          expect { Hubspot::CompanyProperties.delete!(name) }.to raise_error(Hubspot::RequestError)
+          expect { CommunityHubspot::CompanyProperties.delete!(name) }.to raise_error(CommunityHubspot::RequestError)
         end
       end
     end
@@ -147,7 +151,7 @@ describe Hubspot::CompanyProperties do
         cassette 'all_groups'
 
         it 'should return all groups' do
-          expect(Hubspot::CompanyProperties.groups).to eql(example_groups)
+          expect(CommunityHubspot::CompanyProperties.groups).to eql(example_groups)
         end
       end
 
@@ -157,8 +161,8 @@ describe Hubspot::CompanyProperties do
         cassette 'groups_included'
 
         it 'should return the specified groups' do
-          response = Hubspot::CompanyProperties.groups({}, { include: groups })
-          response.each { |p| expect(groups.include?(p['name'])).to be_true }
+          response = CommunityHubspot::CompanyProperties.groups({}, { include: groups })
+          response.each { |p| expect(groups.include?(p['name'])).to be_truthy }
         end
       end
 
@@ -166,8 +170,8 @@ describe Hubspot::CompanyProperties do
         cassette 'groups_not_excluded'
 
         it 'should return groups that were not excluded' do
-          response = Hubspot::CompanyProperties.groups({}, { exclude: groups })
-          response.each { |p| expect(groups.include?(p['name'])).to be_false }
+          response = CommunityHubspot::CompanyProperties.groups({}, { exclude: groups })
+          response.each { |p| expect(groups.include?(p['name'])).to be_falsey }
         end
       end
     end
@@ -177,7 +181,7 @@ describe Hubspot::CompanyProperties do
     describe '.create_group!' do
       context 'with no valid parameters' do
         it 'should return nil' do
-          expect(Hubspot::CompanyProperties.create_group!({})).to be(nil)
+          expect(CommunityHubspot::CompanyProperties.create_group!({})).to be(nil)
         end
       end
 
@@ -185,8 +189,8 @@ describe Hubspot::CompanyProperties do
         cassette 'create_group'
 
         it 'should return the valid parameters' do
-          response = Hubspot::CompanyProperties.create_group!(params)
-          expect(Hubspot::CompanyProperties.same?(response, params)).to be_true
+          response = CommunityHubspot::CompanyProperties.create_group!(params)
+          expect(CommunityHubspot::CompanyProperties.same?(response, params)).to be_truthy
         end
       end
 
@@ -197,8 +201,8 @@ describe Hubspot::CompanyProperties do
 
         it 'should return the valid parameters' do
           params['name'] = 'ff_group235'
-          response       = Hubspot::CompanyProperties.create_group!(sub_params)
-          expect(Hubspot::CompanyProperties.same?(response, sub_params)).to be_true
+          response       = CommunityHubspot::CompanyProperties.create_group!(sub_params)
+          expect(CommunityHubspot::CompanyProperties.same?(response, sub_params)).to be_truthy
         end
       end
     end
@@ -207,7 +211,7 @@ describe Hubspot::CompanyProperties do
       context 'with no valid parameters' do
 
         it 'should return nil ' do
-          expect(Hubspot::CompanyProperties.update_group!(params['name'], {})).to be(nil)
+          expect(CommunityHubspot::CompanyProperties.update_group!(params['name'], {})).to be(nil)
         end
       end
 
@@ -217,8 +221,8 @@ describe Hubspot::CompanyProperties do
         it 'should return the valid parameters' do
           params['displayName'] = 'Test Group OneA'
 
-          response = Hubspot::CompanyProperties.update_group!(params['name'], params)
-          expect(Hubspot::CompanyProperties.same?(response, params)).to be_true
+          response = CommunityHubspot::CompanyProperties.update_group!(params['name'], params)
+          expect(CommunityHubspot::CompanyProperties.same?(response, params)).to be_truthy
         end
       end
 
@@ -231,7 +235,7 @@ describe Hubspot::CompanyProperties do
         cassette 'delete_group'
 
         it 'should return nil' do
-          expect(Hubspot::CompanyProperties.delete_group!(name)).to eq(nil)
+          expect(CommunityHubspot::CompanyProperties.delete_group!(name)).to eq(nil)
         end
       end
 
@@ -239,7 +243,7 @@ describe Hubspot::CompanyProperties do
         cassette 'delete_non_group'
 
         it 'should raise an error' do
-          expect { Hubspot::CompanyProperties.delete_group!(name) }.to raise_error(Hubspot::RequestError)
+          expect { CommunityHubspot::CompanyProperties.delete_group!(name) }.to raise_error(CommunityHubspot::RequestError)
         end
       end
     end

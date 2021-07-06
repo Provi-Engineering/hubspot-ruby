@@ -1,4 +1,4 @@
-module Hubspot
+module CommunityHubspot
   class RequestError < StandardError
     attr_accessor :response
 

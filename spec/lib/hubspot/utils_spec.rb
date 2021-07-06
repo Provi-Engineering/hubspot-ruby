@@ -1,4 +1,4 @@
-describe Hubspot::Utils do
+describe CommunityHubspot::Utils do
   describe ".properties_to_hash" do
     let(:properties) do
       {
@@ -7,10 +7,15 @@ describe Hubspot::Utils do
         "lastname"  => { "value" => "Smith" }
       }
     end
-    subject { Hubspot::Utils.properties_to_hash(properties) }
-    its(["email"]) { should == "email@address.com" }
-    its(["firstname"]) { should == "Bob" }
-    its(["lastname"]) { should == "Smith" }
+    subject { CommunityHubspot::Utils.properties_to_hash(properties) }
+    # its(["email"]) { should == "email@address.com" }
+    # its(["firstname"]) { should == "Bob" }
+    # its(["lastname"]) { should == "Smith" }
+    it 'has correct properties' do
+      expect(subject["email"]).to eq("email@address.com")
+      expect(subject["firstname"]).to eq("Bob")
+      expect(subject["lastname"]).to eq("Smith")
+    end
   end
 
   describe ".hash_to_properties" do
@@ -21,9 +26,13 @@ describe Hubspot::Utils do
         "lastname"  => "Smith"
       }
     end
-    subject { Hubspot::Utils.hash_to_properties(hash) }
+    subject { CommunityHubspot::Utils.hash_to_properties(hash) }
     it { should be_an_instance_of Array }
-    its(:length) { should == 3 }
+    # its(:length) { should == 3 }
+    it 'has correct properties' do
+      expect(subject.length).to eq(3)
+    end
+
     it { should include({ "property" => "email", "value" => "email@address.com" }) }
     it { should include({ "property" => "firstname", "value" => "Bob" }) }
     it { should include({ "property" => "lastname", "value" => "Smith" }) }
@@ -47,7 +56,7 @@ describe Hubspot::Utils do
 
     context 'with no changes' do
       it 'should report no changes' do
-        skip, new_groups, new_props, update_props = Hubspot::Utils.compare_property_lists(Hubspot::ContactProperties, source, target)
+        skip, new_groups, new_props, update_props = CommunityHubspot::Utils.compare_property_lists(CommunityHubspot::ContactProperties, source, target)
         expect(skip.count).to be > 0
         expect(new_groups.count).to be(0)
         expect(new_props.count).to be(0)
@@ -69,7 +78,7 @@ describe Hubspot::Utils do
           end
         end
 
-        skip, new_groups, new_props, update_props = Hubspot::Utils.compare_property_lists(Hubspot::ContactProperties, source, target)
+        skip, new_groups, new_props, update_props = CommunityHubspot::Utils.compare_property_lists(CommunityHubspot::ContactProperties, source, target)
         expect(skip.count).to be > 0
         expect(new_groups.count).to be(0)
         expect(new_props.count).to be(0)
@@ -96,7 +105,7 @@ describe Hubspot::Utils do
 
     context 'with no changes' do
       it 'should report no changes' do
-        skip, new_groups, new_props, update_props = Hubspot::Utils.compare_property_lists(Hubspot::DealProperties, source, target)
+        skip, new_groups, new_props, update_props = CommunityHubspot::Utils.compare_property_lists(CommunityHubspot::DealProperties, source, target)
         expect(skip.count).to be > 0
         expect(new_groups.count).to be(0)
         expect(new_props.count).to be(0)
@@ -118,7 +127,7 @@ describe Hubspot::Utils do
           end
         end
 
-        skip, new_groups, new_props, update_props = Hubspot::Utils.compare_property_lists(Hubspot::DealProperties, source, target)
+        skip, new_groups, new_props, update_props = CommunityHubspot::Utils.compare_property_lists(CommunityHubspot::DealProperties, source, target)
         expect(skip.count).to be > 0
         expect(new_groups.count).to be(0)
         expect(new_props.count).to be(0)
@@ -133,10 +142,10 @@ describe Hubspot::Utils do
         api_key = "demo"
 
         output = capture_stderr do
-          Hubspot::Utils.dump_properties(Hubspot::DealProperties, api_key)
+          CommunityHubspot::Utils.dump_properties(CommunityHubspot::DealProperties, api_key)
         end
 
-        expected_warning = "Hubspot::Utils.dump_properties is deprecated"
+        expected_warning = "CommunityHubspot::Utils.dump_properties is deprecated"
         expect(output).to include(expected_warning)
       end
     end
@@ -149,14 +158,14 @@ describe Hubspot::Utils do
         properties = {"groups" => {}, "properties" => {}}
 
         output = capture_stderr do
-          Hubspot::Utils.restore_properties(
-            Hubspot::DealProperties,
+          CommunityHubspot::Utils.restore_properties(
+            CommunityHubspot::DealProperties,
             api_key,
             properties
           )
         end
 
-        expected_warning = "Hubspot::Utils.restore_properties is deprecated"
+        expected_warning = "CommunityHubspot::Utils.restore_properties is deprecated"
         expect(output).to include(expected_warning)
       end
     end
