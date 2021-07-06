@@ -27,7 +27,7 @@ module CommunityHubspot
         @open_timeout = config['open_timeout'] || config['timeout']
 
         unless access_token.present? ^ hapikey.present?
-          CommunityHubspot::ConfigurationError.new("You must provide either an access_token or an hapikey")
+          # CommunityHubspot::ConfigurationError.new("You must provide either an access_token or an hapikey")
         end
         if access_token.present?
           CommunityHubspot::Connection.headers("Authorization" => "Bearer #{access_token}")
