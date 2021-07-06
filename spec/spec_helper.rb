@@ -12,7 +12,7 @@ end
 
 require 'rspec'
 require 'webmock/rspec'
-require 'hubspot-ruby'
+require 'community-hubspot-ruby'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
