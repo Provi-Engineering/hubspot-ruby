@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.authors = ["Andrew DiMichele", "Chris Bisnett", "Vladislav Ermolkin"]
   s.description = "hubspot-ruby is a wrapper for the HubSpot REST API"
   s.licenses = ["MIT"]
-  s.files = [".rspec", "Gemfile", "Guardfile", "LICENSE.txt", "README.md", "RELEASING.md", "Rakefile", "hubspot-ruby.gemspec"]
+  s.files = [".rspec", "Gemfile", "Guardfile", "LICENSE.txt", "README.md", "RELEASING.md", "Rakefile", "community-hubspot-ruby.gemspec"]
   s.files += Dir["lib/**/*.rb"]
   s.files += Dir["lib/**/*.rake"]
   s.files += Dir["spec/**/*.rb"]

@@ -1,3 +1,3 @@
 source "http://rubygems.org"
-# Add dependencies to hubspot-ruby.gemspec
+# Add dependencies to community-hubspot-ruby.gemspec
 gemspec
