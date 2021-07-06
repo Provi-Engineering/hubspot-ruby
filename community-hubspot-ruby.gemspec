@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name = "hubspot-ruby"
+  s.name = "community-hubspot-ruby"
   s.version = "0.9.0"
   s.require_paths = ["lib"]
   s.authors = ["Andrew DiMichele", "Chris Bisnett", "Vladislav Ermolkin"]
@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.files += Dir["lib/**/*.rake"]
   s.files += Dir["spec/**/*.rb"]
   s.homepage = "http://github.com/adimichele/hubspot-ruby"
-  s.summary = "hubspot-ruby is a wrapper for the HubSpot REST API"
+  s.summary = "community-hubspot-ruby is a fork of hubspot-ruby, a wrapper for the HubSpot REST API"
   s.metadata = {
     "changelog_uri" => "https://github.com/adimichele/hubspot-ruby/blob/master/History.md"
   }
