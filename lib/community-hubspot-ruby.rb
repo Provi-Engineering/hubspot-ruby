@@ -1,7 +1,7 @@
 require 'active_support'
 require 'active_support/core_ext'
 require 'httparty'
-require 'hubspot/exceptions'
+require 'hubspot/exceptions/exceptions'
 require 'hubspot/properties'
 require 'hubspot/company'
 require 'hubspot/company_properties'
